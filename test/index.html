@@ -51,17 +51,24 @@
       },
       methods: {
         enterRoom() {
-          this.users.push({
+          let data = {
             name: this.name,
-            status: true,
-          })
+            point: 0
+          }
+          this.users.push(data)
+          socket.username = data.name
           socket.emit('joining', this.name)
         },
         checkAnswer(el){
-          console.log(el.target.id)
+          console.log(socket.username)
           if(el.target.id== this.soal[0].answer){
-            this.survivor.push('cui')
-            socket.emit('choose','cui')
+            this.survivor.push(socket.username)
+            socket.emit('choose',socket.username)
+            for(let i =0; i<this.users.length;i++){
+              if(this.users[i].name== socket.username){
+                this.users[i].point++
+              }
+            }
           }
         }
       },
@@ -71,9 +78,14 @@
           console.log(data)
         })
         socket.on('joining',data=>{
-          this.users.push({name:data, status:true})
+          this.users.push({name:data, point:0})
         })
         socket.on('choose',data=>{
+          for(let i =0; i<this.users.length;i++){
+              if(this.users[i].name== data){
+                this.users[i].point++
+              }
+            }
           this.survivor.push(data)
         })
       },
