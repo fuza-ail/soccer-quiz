@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import io from "socket.io-client";
+let socket = io("http://localhost:3000/");
 export default {
   data() {
     return {
@@ -24,6 +26,9 @@ export default {
   },
   methods: {
     login() {
+      // socket.on("joining", data => {
+      //   this.users.push({ name: data, score: 0, status: false });
+      // });
       this.$store.commit("AddUsers", this.name);
       this.$router.push("/listPlayer");
     }

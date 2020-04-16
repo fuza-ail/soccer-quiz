@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import io from "socket.io-client";
+let socket = io("http://localhost:3000/");
 
 Vue.use(Vuex);
 
@@ -34,13 +36,21 @@ export default new Vuex.Store({
         answer: "a"
       }
     ],
-    name: "",
     users: []
   },
   mutations: {
     AddUsers(state, payload) {
-      state.users.push({ name: payload, score: 0, status: false });
+      //state.users.push({ name: payload, score: 0, status: false });
+      let data = {
+        name: payload,
+        score: 0,
+        status: false
+      }
+      state.users.push(data)
+      socket.username = data.name
+      socket.emit('joining', payload)
     },
+
   },
   actions: {
   },

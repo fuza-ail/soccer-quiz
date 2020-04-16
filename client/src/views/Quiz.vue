@@ -16,10 +16,6 @@
         </div>
       </div>
     </div>
-    <button type="button" class="btn btn-outline-dark" @click.prevent="next">Next</button>
-    <!-- <div v-show="questionIndex === questions.length">
-      <h2>Quiz finished</h2>
-    </div>-->
   </div>
 </template>
 
@@ -33,7 +29,10 @@ export default {
     };
   },
   created() {
-    this.countDownTimer();
+    setTimeout(() => {
+      this.countDownTime();
+    }, 1000);
+    // this.countDownTimer();
   },
   computed: {
     soal() {
@@ -53,7 +52,38 @@ export default {
           this.countDown -= 1;
           this.countDownTimer();
         }, 1000);
+      } else {
+        this.questionIndex++;
+        //return this.countDownTimer();
       }
+    },
+    countDownTime() {
+      this.timer = setInterval(() => {
+        this.time = this.countDown % 60;
+        this.countDown--;
+        if (this.countDown <= 0) {
+          clearInterval(this.timer);
+          // this.questionIndex++;
+          this.$swal({
+            position: "center",
+            icon: "error",
+            title: `Time is Up !!!`,
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            timer: 5000,
+            onClose: () => {
+              this.countDown = 10;
+              this.questionIndex++;
+              if (this.$store.state.soal.length - 1 < this.questionIndex) {
+                alert("Quiz Finished");
+              } else {
+                this.countDownTime();
+              }
+            }
+          });
+        }
+      }, 1000);
     },
     checkAnswer(data, index) {
       if (this.soal[index].answer == data) {

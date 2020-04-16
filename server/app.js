@@ -12,9 +12,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(router)
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-});
+// app.get('/', (req, res) => {
+//     res.sendFile(__dirname + '/index.html');
+// });
 
 io.on('connection', (socket) => {
     console.log('a user connected');
@@ -23,6 +23,7 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('created', 'broadcast')
     })
     socket.on('joining', data => {
+        console.log(data)
         socket.broadcast.emit('joining', data)
     })
     socket.on('choose', data => {
@@ -30,6 +31,6 @@ io.on('connection', (socket) => {
     })
 });
 
-http.listen(3002, () => {
+http.listen(PORT, () => {
     console.log('listening on *:3000');
 });
