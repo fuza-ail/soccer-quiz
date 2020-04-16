@@ -1,34 +1,12 @@
 <template>
   <div id="app">
-    <Home v-if="firstPage" @StartQuiz="StartQuiz"></Home>
-    <Quiz v-if="quizPage"></Quiz>
+    <div id="nav">
+      <!-- <router-link to="/">Home</router-link>|
+      <router-link to="/listPlayer">List Player</router-link>-->
+    </div>
+    <router-view />
   </div>
 </template>
-
-<script>
-import Home from "./views/Home.vue";
-import Quiz from "./views/Quiz.vue";
-
-export default {
-  name: "App",
-  components: {
-    Home,
-    Quiz
-  },
-  data() {
-    return {
-      firstPage: true,
-      quizPage: false
-    };
-  },
-  methods: {
-    StartQuiz() {
-      this.firstPage = false;
-      this.quizPage = true;
-    }
-  }
-};
-</script>
 
 <style>
 #app {
@@ -37,6 +15,18 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>
