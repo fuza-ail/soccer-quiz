@@ -46,9 +46,7 @@ export default new Vuex.Store({
         score: 0,
         status: false
       }
-      state.users.push(data)
-      socket.username = data.name
-      socket.emit('joining', payload)
+        state.users.push(data)
     },
 
   },

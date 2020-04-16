@@ -35,16 +35,6 @@ export default {
       return this.$store.state.users;
     }
   },
-  created() {
-    socket.emit("created", "StartChat");
-    socket.on("created", data => {
-      console.log(data);
-    });
-    socket.on("joining", data => {
-      // this.users.push({ name: data, score: 0, status: false });
-      this.$store.commit("AddUsers", data);
-    });
-  },
   methods: {
     readyQuiz() {
       this.countReady++;

@@ -18,19 +18,29 @@
 <script>
 import io from "socket.io-client";
 let socket = io("http://localhost:3000/");
+
 export default {
   data() {
     return {
       name: ""
     };
   },
+  created() {
+    socket.emit("created", "start");
+    socket.on("created", data => {
+      console.log(data);
+    });
+    socket.on("joining", data => {
+      // this.users.push({ name: data, point: 0 });
+      this.$store.commit("AddUsers", data);
+    });
+  },
   methods: {
     login() {
-      // socket.on("joining", data => {
-      //   this.users.push({ name: data, score: 0, status: false });
-      // });
       this.$store.commit("AddUsers", this.name);
       this.$router.push("/listPlayer");
+      socket.username = this.name;
+      socket.emit("joining", this.name);
     }
   }
 };
