@@ -42,28 +42,28 @@ export default new Vuex.Store({
         },
         answer: "a"
       },
-      // {
-      //   id: 4,
-      //   question: "Berasal darimanakah Bambang Pamungkas ? ",
-      //   choiches: {
-      //     a: "Spanyol",
-      //     b: "Portugal",
-      //     c: "Indonesia",
-      //     d: "Argentina"
-      //   },
-      //   answer: "c"
-      // },
-      // {
-      //   id: 5,
-      //   question: "Berasal darimanakah Lionel Messi ? ",
-      //   choiches: {
-      //     a: "Spanyol",
-      //     b: "Portugal",
-      //     c: "Indonesia",
-      //     d: "Argentina"
-      //   },
-      //   answer: "d"
-      // }
+      {
+        id: 4,
+        question: "Berasal darimanakah Bambang Pamungkas ? ",
+        choiches: {
+          a: "Spanyol",
+          b: "Portugal",
+          c: "Indonesia",
+          d: "Argentina"
+        },
+        answer: "c"
+      },
+      {
+        id: 5,
+        question: "Berasal darimanakah Lionel Messi ? ",
+        choiches: {
+          a: "Spanyol",
+          b: "Portugal",
+          c: "Indonesia",
+          d: "Argentina"
+        },
+        answer: "d"
+      }
     ],
     users: [],
     ready: 0
