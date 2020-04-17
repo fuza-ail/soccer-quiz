@@ -36,7 +36,8 @@ export default new Vuex.Store({
         answer: "a"
       }
     ],
-    users: []
+    users: [],
+    ready: 0
   },
   mutations: {
     AddUsers(state, payload) {
@@ -46,9 +47,11 @@ export default new Vuex.Store({
         score: 0,
         status: false
       }
-        state.users.push(data)
+      state.users.push(data)
     },
-
+    AddReady(state, payload) {
+      state.ready++
+    }
   },
   actions: {
   },

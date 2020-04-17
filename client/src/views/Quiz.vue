@@ -1,7 +1,8 @@
 <template>
   <div>
     <h2>SOCCER QUIZ</h2>
-    {{ countDown }}
+    <div v-if="finish">{{ countDown }}</div>
+
     <div class="form-group row" v-for="(question,index) in soal" :key="question.id">
       <div class="col-sm-4"></div>
       <div class="col-sm-4">
@@ -13,6 +14,7 @@
             class="form-control my-2 item."
             @click.prevent="checkAnswer(index2,index)"
           >{{item}}</button>
+          {{user}}
         </div>
       </div>
     </div>
@@ -20,12 +22,15 @@
 </template>
 
 <script>
+import io from "socket.io-client";
+let socket = io("http://localhost:3000/");
 export default {
   data() {
     return {
-      countDown: 10,
+      countDown: 5,
       score: 0,
-      questionIndex: 0
+      questionIndex: 0,
+      finish: true
     };
   },
   created() {
@@ -71,54 +76,53 @@ export default {
             showConfirmButton: false,
             allowOutsideClick: false,
             allowEscapeKey: false,
-            timer: 5000,
+            timer: 2000,
             onClose: () => {
               this.countDown = 10;
-              this.questionIndex++;
-              if (this.$store.state.soal.length - 1 < this.questionIndex) {
-                alert("Quiz Finished");
+              console.log(
+                this.$store.state.soal.length - 1,
+                this.questionIndex
+              );
+              if (this.$store.state.soal.length - 1 == this.questionIndex) {
+                this.finish = false;
+                this.$router.push("/win");
               } else {
                 this.countDownTime();
               }
+              this.questionIndex++;
             }
           });
         }
       }, 1000);
     },
     checkAnswer(data, index) {
-      clearInterval(this.timer);
       if (this.soal[index].answer == data) {
-        //this.$swal("Congratss", "Correct Answer");
+        // for (let i = 0; i < this.$store.state.users.length; i++) {
+        //   if (
+        //     this.$store.state.users[i].name == localStorage.getItem("username")
+        //   ) {
+        //     socket.emit("choose", this.$store.state.users[i].score++);
+        //     //this.$store.state.users[i].score++;
+        //   }
+        // }
+        socket.emit("choose", localStorage.getItem("username"));
         this.$swal({
           position: "center",
           icon: "success",
-          title: "Congratss, Correct Answer",
+          title: `:) Correct!!`,
           showConfirmButton: false,
           allowOutsideClick: false,
-          allowEscapeKey: false,
-          timer: 1000
+          allowEscapeKey: false
         });
-        setTimeout(() => {
-          this.countDown = 10;
-          this.questionIndex++;
-          this.countDownTime();
-        }, 1000);
       } else {
-        //this.$swal(" :( ", "Wrong Answer");
         this.$swal({
           position: "center",
           icon: "error",
-          title: ":( Wrong Answer",
+          title: `:(  Incorrect !!!`,
           showConfirmButton: false,
           allowOutsideClick: false,
-          allowEscapeKey: false,
-          timer: 1000
+          allowEscapeKey: false
         });
-        setTimeout(() => {
-          this.countDown = 10;
-          this.questionIndex++;
-          this.countDownTime();
-        }, 1000);
       }
     }
   }

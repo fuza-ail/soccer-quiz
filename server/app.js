@@ -25,12 +25,20 @@ io.on('connection', (socket) => {
         console.log(data)
         socket.broadcast.emit('joining', data)
     })
-    // socket.on('choose', data => {
-    //     socket.broadcast.emit('choose', data)
-    // })
+    socket.on('choose', data => {
+        console.log(data, '-->choose')
+        socket.broadcast.emit('choose', data)
+    })
+    socket.on('ready', data => {
+        console.log(data, '-->ready')
+        socket.broadcast.emit('ready', data)
+    })
+    socket.on('start', data => {
+        socket.broadcast.emit('start', data)
+    })
     socket.on('disconnect', () => {
         console.log('user disconnected');
-      });
+    });
 });
 
 http.listen(PORT, () => {

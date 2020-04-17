@@ -28,4 +28,11 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+body {
+  background-image: url("./assets/soccer.jpg");
+  background-repeat: no-repeat;
+  background-size: 110%;
+}
 </style>

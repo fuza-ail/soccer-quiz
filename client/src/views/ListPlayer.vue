@@ -1,13 +1,13 @@
 <template>
   <div>
-    <h2>SOCCER QUIZ</h2>
+    <h1>SOCCER QUIZ</h1>
     <div class="form-group row" v-for="(user,index) in name" :key="index">
       <div class="col-sm-4"></div>
       <div class="col-sm-4">
         <input v-model="user.name" class="form-control" readonly />
       </div>
     </div>
-    <button type="button" v-if="ready" class="btn btn-outline-dark" @click.prevent="readyQuiz">Ready</button>
+    <button type="button" v-if="ready" class="btn buttonready" @click.prevent="readyQuiz">Ready</button>
     <button
       type="button"
       v-if="notReady"
@@ -26,8 +26,8 @@ export default {
     return {
       ready: true,
       notReady: false,
-      countReady: 0,
-      countUser: this.$store.state.users.length
+      //countReady: 0,
+      users: this.$store.state.users
     };
   },
   computed: {
@@ -37,13 +37,15 @@ export default {
   },
   methods: {
     readyQuiz() {
-      this.countReady++;
-      this.ready = false;
-      this.notReady = true;
-      //   if (this.countUser == this.countReady && this.countUser > 1) {
-      if (this.countUser == this.countReady) {
-        this.$router.push("/quiz");
-      }
+      console.log(this.users);
+      socket.emit("ready", localStorage.getItem("username"));
+      console.log(this.users);
+      //   let readyToPlay = this.users.length;
+
+      ////if (this.users.length == this.$store.state.ready) {
+      console.log("ayo bermain");
+      socket.emit("start");
+      //}
     },
     notReadyQuiz() {
       this.countReady--;
@@ -53,3 +55,30 @@ export default {
   }
 };
 </script>
+<style scoped>
+h1 {
+  text-align: center;
+  margin-top: 3%;
+  margin-bottom: 0%;
+  font-weight: bolder;
+  color: whitesmoke;
+  text-shadow: 5px 5px 3px black;
+  font-family: "Lobster", cursive;
+  font-size: 700%;
+}
+.buttonready {
+  width: 20%;
+  height: 5%;
+  display: block;
+  margin-top: 18.5%;
+  margin-left: 41%;
+  border-radius: 20px;
+  color: whitesmoke;
+  font-weight: bolder;
+  font-size: large;
+  background-color: blue;
+  text-shadow: 5px 1.5px 1px black;
+  cursor: pointer;
+  font-family: "Lobster", cursive;
+}
+</style>

@@ -8,9 +8,23 @@
           <input type="text" class="inputboxregister" placeholder="Name" v-model="name" />
         </div>
         <div>
-          <button class="buttonplay" type="submit">Play</button>
+          <button class="buttonjoin" type="submit">Join</button>
         </div>
       </form>
+    </div>
+
+    <div class="centerboxrules">
+      <h4>How to play</h4>
+      <ol>
+        <li>input your name in input box</li>
+        <li>click join</li>
+        <li>wait for another player</li>
+        <li>then enjoy the game</li>
+        <li>
+          <strong>Higher&nbsp;</strong>score
+          <strong>&nbsp;WIN&nbsp;</strong>the game
+        </li>
+      </ol>
     </div>
   </div>
 </template>
@@ -34,11 +48,33 @@ export default {
       // this.users.push({ name: data, point: 0 });
       this.$store.commit("AddUsers", data);
     });
+
+    socket.on("start", data => {
+      this.$router.push("/quiz");
+    });
+
+    socket.on("choose", data => {
+      for (let i = 0; i < this.$store.state.users.length; i++) {
+        if (this.$store.state.users[i].name == data) {
+          this.$store.state.users[i].score++;
+        }
+      }
+    });
+
+    socket.on("ready", data => {
+      for (let i = 0; i < this.$store.state.users.length; i++) {
+        if (this.$store.state.users[i].name == data) {
+          this.$store.state.users[i].status = true;
+          this.$store.commit("AddReady");
+        }
+      }
+    });
   },
   methods: {
     login() {
       this.$store.commit("AddUsers", this.name);
       this.$router.push("/listPlayer");
+      localStorage.setItem("username", this.name);
       socket.username = this.name;
       socket.emit("joining", this.name);
     }
@@ -48,11 +84,6 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
 
-.loginPage {
-  /* //background-image: url("./assets/soccer.jpg"); */
-  background-repeat: no-repeat;
-  background-size: 110%;
-}
 h1 {
   text-align: center;
   margin-top: 10px;
@@ -68,12 +99,12 @@ h1 {
   width: 350px;
   height: 200px;
   position: absolute;
-  top: 35%;
+  top: 40%;
   left: 52%;
   background-color: azure;
   transform: translate(-50%, -50%);
   opacity: 0.9;
-  border-radius: 10%;
+  border-radius: 20px;
   box-shadow: 5 5px 3px white;
 }
 
@@ -98,7 +129,7 @@ h3 {
   font-family: "Lobster", cursive;
 }
 
-.buttonplay {
+.buttonjoin {
   width: 50%;
   height: 40px;
   display: block;
@@ -113,5 +144,32 @@ h3 {
   text-shadow: 1px 1.5px 1px black;
   cursor: pointer;
   font-family: "Lobster", cursive;
+}
+
+.centerboxrules {
+  width: 550px;
+  height: 200px;
+  position: absolute;
+  top: 80%;
+  left: 52%;
+  background-color: azure;
+  transform: translate(-50%, -50%);
+  opacity: 0.9;
+  border-radius: 20px;
+  box-shadow: 5 5px 3px white;
+}
+
+h4 {
+  text-align: center;
+  color: black;
+  margin-top: 7px;
+  margin-bottom: 7px;
+  text-shadow: 1px 1.5px 1px whitesmoke;
+  font-family: "Lobster", cursive;
+  font-size: xx-large;
+}
+
+li {
+  font-size: larger;
 }
 </style>
