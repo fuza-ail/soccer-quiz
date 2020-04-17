@@ -1,20 +1,28 @@
 <template>
   <div>
-    <h2>SOCCER QUIZ</h2>
+    <h1>SOCCER QUIZ</h1>
     <div v-if="finish">{{ countDown }}</div>
 
     <div class="form-group row" v-for="(question,index) in soal" :key="question.id">
-      <div class="col-sm-4"></div>
-      <div class="col-sm-4">
+      <!-- <div class="col-sm-4"></div> -->
+      <div
+        class="col-sm-4 mb-3 questionbox"
+        style="text-align:center !important; margin:auto !important;"
+      >
         <div v-if="index === questionIndex">
-          <input v-model="question.question" class="form-control" readonly />
+          <input
+            v-model="question.question"
+            class="form-control my-3 question"
+            style="width:500px !important;"
+            readonly
+          />
           <button
             v-for="(item,index2) in question.choiches"
             :key="index2"
-            class="form-control my-2 item."
+            class="form-control my-2 item. answer"
+            style="background:#D3D3D3"
             @click.prevent="checkAnswer(index2,index)"
           >{{item}}</button>
-          {{user}}
         </div>
       </div>
     </div>
@@ -23,7 +31,8 @@
 
 <script>
 import io from "socket.io-client";
-let socket = io("http://localhost:3000/");
+// let socket = io("http://localhost:3000/");
+let socket = io("https://obscure-chamber-19357.herokuapp.com/");
 export default {
   data() {
     return {
@@ -78,7 +87,7 @@ export default {
             allowEscapeKey: false,
             timer: 2000,
             onClose: () => {
-              this.countDown = 10;
+              this.countDown = 5;
               console.log(
                 this.$store.state.soal.length - 1,
                 this.questionIndex
@@ -128,3 +137,16 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+h1 {
+  text-align: center;
+  margin-top: 10px;
+  font-weight: bolder;
+  color: whitesmoke;
+  text-shadow: 5px 5px 3px black;
+  font-family: "Lobster", cursive;
+  font-size: 3cm;
+  text-indent: 50px;
+}
+</style>

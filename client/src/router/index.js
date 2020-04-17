@@ -4,6 +4,7 @@ import Home from '../views/Home.vue';
 import ListPlayer from '../views/ListPlayer.vue';
 import Quiz from '../views/Quiz.vue';
 import Win from '../views/Win.vue';
+import Gift from '../views/Gift.vue';
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/win',
     name: 'Win',
     component: Win,
+  },
+  {
+    path: '/gift',
+    name: 'Gift',
+    component: Gift,
   },
 ];
 

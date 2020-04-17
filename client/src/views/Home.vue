@@ -16,10 +16,10 @@
     <div class="centerboxrules">
       <h4>How to play</h4>
       <ol>
-        <li>input your name in input box</li>
-        <li>click join</li>
-        <li>wait for another player</li>
-        <li>then enjoy the game</li>
+        <li>Input your name</li>
+        <li>Click join</li>
+        <li>Wait for another player</li>
+        <li>Then enjoy the game</li>
         <li>
           <strong>Higher&nbsp;</strong>score
           <strong>&nbsp;WIN&nbsp;</strong>the game
@@ -31,15 +31,19 @@
 
 <script>
 import io from "socket.io-client";
-let socket = io("http://localhost:3000/");
+import music from "../assets/BGM.mp3";
+// let socket = io("http://localhost:3000/");
+let socket = io("https://obscure-chamber-19357.herokuapp.com/");
 
 export default {
   data() {
     return {
-      name: ""
+      name: "",
+      music: new Audio(music)
     };
   },
   created() {
+    this.music.play();
     socket.emit("created", "start");
     socket.on("created", data => {
       console.log(data);
@@ -83,7 +87,6 @@ export default {
 </script>
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
-
 h1 {
   text-align: center;
   margin-top: 10px;

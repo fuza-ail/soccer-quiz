@@ -7,11 +7,11 @@
         <input v-model="user.name" class="form-control" readonly />
       </div>
     </div>
-    <button type="button" v-if="ready" class="btn buttonready" @click.prevent="readyQuiz">Ready</button>
+    <button type="button" v-if="ready" class="buttonready" @click.prevent="readyQuiz">Ready</button>
     <button
       type="button"
       v-if="notReady"
-      class="btn btn-outline-info"
+      class="buttonready"
       @click.prevent="notReadyQuiz"
     >Not Ready</button>
   </div>
@@ -19,7 +19,8 @@
 
 <script>
 import io from "socket.io-client";
-let socket = io("http://localhost:3000/");
+// let socket = io("http://localhost:3000/");
+let socket = io("https://obscure-chamber-19357.herokuapp.com/");
 
 export default {
   data() {
@@ -44,7 +45,11 @@ export default {
 
       ////if (this.users.length == this.$store.state.ready) {
       console.log("ayo bermain");
-      socket.emit("start");
+      if (this.users.length > 1) {
+        socket.emit("start");
+      }
+      this.ready = false;
+      this.notReady = true;
       //}
     },
     notReadyQuiz() {
