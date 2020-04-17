@@ -15,16 +15,18 @@
 
     <div class="centerboxrules">
       <h4>How to play</h4>
-      <ol>
+      <ul>
         <li>Input your name</li>
         <li>Click join</li>
         <li>Wait for another player</li>
-        <li>Then enjoy the game</li>
+        <li>Start the game</li>
+        <li>1 point each correct answer</li>
         <li>
-          <strong>Higher&nbsp;</strong>score
+          <strong>Highest&nbsp;</strong>score
           <strong>&nbsp;WIN&nbsp;</strong>the game
         </li>
-      </ol>
+        <li>Enjoy the game</li>
+      </ul>
     </div>
   </div>
 </template>
@@ -151,7 +153,7 @@ h3 {
 
 .centerboxrules {
   width: 550px;
-  height: 200px;
+  padding: 5px;
   position: absolute;
   top: 80%;
   left: 52%;

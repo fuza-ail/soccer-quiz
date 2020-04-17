@@ -1,7 +1,10 @@
 <template>
   <div>
     <h1>SOCCER QUIZ</h1>
-    <div v-if="finish">{{ countDown }}</div>
+    <div
+      v-if="finish"
+      style="background:grey; opacity:0.7; width=100px; font-size:3em;"
+    >{{ countDown }}</div>
 
     <div class="form-group row" v-for="(question,index) in soal" :key="question.id">
       <!-- <div class="col-sm-4"></div> -->
@@ -78,29 +81,51 @@ export default {
         if (this.countDown <= 0) {
           clearInterval(this.timer);
           // this.questionIndex++;
-          this.$swal({
-            position: "center",
-            icon: "error",
-            title: `Time is Up !!!`,
-            showConfirmButton: false,
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            timer: 2000,
-            onClose: () => {
-              this.countDown = 5;
-              console.log(
-                this.$store.state.soal.length - 1,
-                this.questionIndex
-              );
-              if (this.$store.state.soal.length - 1 == this.questionIndex) {
-                this.finish = false;
-                this.$router.push("/win");
-              } else {
-                this.countDownTime();
-              }
-              this.questionIndex++;
-            }
-          });
+          // this.$swal({
+          //   position: "center",
+          //   //icon: "error",
+          //   title: `Ready!! Next Question`,
+          //   showConfirmButton: false,
+          //   allowOutsideClick: false,
+          //   allowEscapeKey: false,
+          //   timer: 2000,
+          //   onClose: () => {
+          //     this.countDown = 5;
+          //     if (this.$store.state.soal.length - 1 == this.questionIndex) {
+          //       this.$swal({
+          //         position: "center",
+          //         //icon: "error",
+          //         title: `End Game`,
+          //         showConfirmButton: false,
+          //         allowOutsideClick: false,
+          //         allowEscapeKey: false,
+          //         timer: 1000
+          //       });
+          //       this.finish = false;
+          //       this.$router.push("/win");
+          //     } else {
+          //       this.countDownTime();
+          //     }
+          //     this.questionIndex++;
+          //   }
+          // });
+          this.countDown = 5;
+          if (this.$store.state.soal.length - 1 == this.questionIndex) {
+            this.$swal({
+              position: "center",
+              //icon: "error",
+              title: `End Game`,
+              showConfirmButton: false,
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              timer: 1000
+            });
+            this.finish = false;
+            this.$router.push("/win");
+          } else {
+            this.countDownTime();
+          }
+          this.questionIndex++;
         }
       }, 1000);
     },
@@ -121,7 +146,8 @@ export default {
           title: `:) Correct!!`,
           showConfirmButton: false,
           allowOutsideClick: false,
-          allowEscapeKey: false
+          allowEscapeKey: false,
+          timer: 1000
         });
       } else {
         this.$swal({
@@ -130,7 +156,8 @@ export default {
           title: `:(  Incorrect !!!`,
           showConfirmButton: false,
           allowOutsideClick: false,
-          allowEscapeKey: false
+          allowEscapeKey: false,
+          timer: 1000
         });
       }
     }
