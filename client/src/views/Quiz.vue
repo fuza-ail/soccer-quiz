@@ -32,7 +32,7 @@ export default {
     setTimeout(() => {
       this.countDownTime();
     }, 1000);
-    // this.countDownTimer();
+    //this.countDownTimer();
   },
   computed: {
     soal() {
@@ -86,10 +86,39 @@ export default {
       }, 1000);
     },
     checkAnswer(data, index) {
+      clearInterval(this.timer);
       if (this.soal[index].answer == data) {
-        this.$swal("Congratss", "Correct Answer");
+        //this.$swal("Congratss", "Correct Answer");
+        this.$swal({
+          position: "center",
+          icon: "success",
+          title: "Congratss, Correct Answer",
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          timer: 1000
+        });
+        setTimeout(() => {
+          this.countDown = 10;
+          this.questionIndex++;
+          this.countDownTime();
+        }, 1000);
       } else {
-        this.$swal(" :( ", "Wrong Answer");
+        //this.$swal(" :( ", "Wrong Answer");
+        this.$swal({
+          position: "center",
+          icon: "error",
+          title: ":( Wrong Answer",
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          timer: 1000
+        });
+        setTimeout(() => {
+          this.countDown = 10;
+          this.questionIndex++;
+          this.countDownTime();
+        }, 1000);
       }
     }
   }
